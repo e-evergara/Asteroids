@@ -44,3 +44,38 @@ Opening `index.html` directly (file://) also works. There is no other build/veri
 - User-facing strings, code comments, and the README are in **Spanish** – match that for any new HUD text, overlays, or comments.
 - Entity pattern: a `class` with `update(dt)`, `draw()`, and a `dead` boolean flag. Register new entity arrays in `update()` (movement + collision) and `draw()`, and filter out `dead` entries each frame (see `bullets`/`asteroids`/`particles`).
 - Tuning constants (speeds, radii, points, thrust, drag) are inline near their class – keep new tuning values local and documented.
+
+## How to work
+
+- Do only what is asked: do not add features on your own.
+- Small, concrete changes; do not rewrite what already works.
+- When finished, summarize what you changed and any decision the user should review.
+
+## Communication
+
+- Always respond in Spanish. Every plan must be written in Spanish, including titles, descriptions, edge cases, open questions, and summaries. Do not write any part of the response in English, even if code references or snippets are in English.
+
+## Memory
+
+- At the start, read `MEMORY.md` to know the project status and the decisions taken.
+- When a task is complete, update it: current status, important decisions (with their rationale), and mistakes to avoid.
+- Keep it brief (max ~100 lines): summarize or delete anything that no longer adds value.
+- If something becomes a permanent rule, propose moving it to `AGENTS.md` instead of keeping it in memory.
+- Never store sensitive data (keys, tokens, personal data).
+
+## Prompt history
+
+- Automatically save every prompt received in `MEMORY_PROMPTS.md`.
+- Record entries in strict chronological order (append each new prompt at the end of the file).
+- **Context exclusion**: Do not read or add MEMORY_PROMPTS.md to the session context (it is an output/log-only file).
+- Apply the same security restrictions: do not save keys, tokens, or sensitive data.
+- Include a timestamp (date and time) to keep context across sessions.
+- Use the following format for each entry:
+
+  ```markdown
+
+   ### [YYYY-MM-DD HH:MM]
+
+   **Prompt:** <exact text of the prompt>
+   
+  ```
