@@ -458,6 +458,81 @@ function drawLifeIcon(x, y) {
     ctx.restore();
 }
 
+// Barra de progreso del power-up "Velocidad" (arriba a la izquierda)
+// Se vacía de izquierda a derecha; relámpagos internos mientras está activa.
+const BAR_W = 120;
+const BAR_H = 10;
+let boltBolts = [];       // relámpagos internos: array de polilíneas [[x,y], ...]
+let boltTime = 0;         // timestamp de la última regeneración de relámpagos
+
+function makeBolts(fillW) {
+    // 1–2 relámpagos zigzagueantes dentro del área rellena de la barra
+    const count = randInt(1, 2);
+    const bolts = [];
+    for (let i = 0; i < count; i++) {
+        const pts = [];
+        const segs = randInt(4, 6);
+        const x0 = rand(4, Math.max(5, fillW - 4));
+        const y0 = rand(2, BAR_H - 2);
+        pts.push([x0, y0]);
+        for (let s = 1; s <= segs; s++) {
+            const x = x0 + rand(-14, 14) * (s / segs) + rand(-6, 6);
+            const y = y0 + rand(-3, 3);
+            pts.push([
+                Math.max(1, Math.min(fillW - 1, x)),
+                Math.max(1, Math.min(BAR_H - 1, y)),
+            ]);
+        }
+        bolts.push(pts);
+    }
+    return bolts;
+}
+
+function drawSpeedBar() {
+    const x = 14;
+    const y = 50;
+    const ratio = Math.max(0, Math.min(1, ship.speedTimer / POWERUP_DURATION));
+    const fillW = Math.round((BAR_W - 4) * ratio);
+    const ending = ship.speedTimer < 1.5;   // aviso de que está por terminar
+
+    // Regenerar relámpagos cada ~100 ms
+    const now = performance.now();
+    if (now - boltTime > 100) {
+        boltBolts = makeBolts(fillW);
+        boltTime = now;
+    }
+
+    // Borde
+    ctx.strokeStyle = '#ffcc00';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(x + 0.5, y + 0.5, BAR_W - 1, BAR_H - 1);
+
+    if (fillW <= 0) return;
+
+    // Relleno ámbar (parpadea al quedar poco tiempo)
+    const flicker = ending && Math.floor(ship.speedTimer * 8) % 2 === 0 ? 0.45 : 0.9;
+    ctx.fillStyle = `rgba(255, 204, 0, ${flicker})`;
+    ctx.fillRect(x + 2, y + 2, fillW, BAR_H - 4);
+
+    // Relámpagos internos (blanco sobre el relleno)
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1;
+    for (const b of boltBolts) {
+        ctx.beginPath();
+        ctx.moveTo(x + 2 + b[0][0], y + 2 + b[0][1]);
+        for (let i = 1; i < b.length; i++)
+            ctx.lineTo(x + 2 + b[i][0], y + 2 + b[i][1]);
+        ctx.stroke();
+    }
+
+    // Etiqueta al lado de la barra
+    ctx.fillStyle = '#ffcc00';
+    ctx.font = '15px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('VELOCIDAD x2', x + BAR_W + 10, y + BAR_H - 1);
+    ctx.fillStyle = '#fff';
+}
+
 function drawHUD() {
     ctx.fillStyle = '#fff';
     ctx.font = '15px monospace';
@@ -469,12 +544,7 @@ function drawHUD() {
     ctx.fillText(`NIVEL ${level}`, W / 2, 26);
 
     // Indicador del power-up "Velocidad" activo
-    if (ship.speedTimer > 0) {
-        ctx.textAlign = 'left';
-        ctx.fillStyle = '#ffcc00';
-        ctx.fillText(`VELOCIDAD x2  ${ship.speedTimer.toFixed(1)}s`, 14, 46);
-        ctx.fillStyle = '#fff';
-    }
+    if (ship.speedTimer > 0) drawSpeedBar();
 
     for (let i = 0; i < lives; i++)
         drawLifeIcon(W - 16 - i * 22, 18);

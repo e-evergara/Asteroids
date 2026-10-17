@@ -14,7 +14,7 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas: resume o elimina lo qu
 - Efecto: **solo impulso x2** (260 → 520 px/s²) durante 5 s; giro y disparo sin cambios. Recogerlo con el efecto activo **recarga** el temporizador, no acumula.
 - Visual: círculo con rayo **ámbar `#ffcc00`** (único elemento con color en un juego monocromo), TTL 10 s con parpadeo los últimos 2 s.
 - Helper `randomSafePos()` comparte la lógica de distancia segura (130 px) entre asteroides y power-ups.
-- HUD en español: `VELOCIDAD x2  N.Ns` bajo el score mientras está activo.
+- HUD en español: barra de progreso `drawSpeedBar()` (120×10 px, arriba a la izquierda, texto `VELOCIDAD x2` al lado). Se vacía en 5 s; relámpagos internos regenerados cada 100 ms (`performance.now()`, ya que `draw()` no recibe `dt`) y parpadeo cuando `speedTimer < 1.5`.
 
 ## Errores a evitar
 

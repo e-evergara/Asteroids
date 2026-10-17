@@ -47,10 +47,11 @@ Luego visita `http://localhost:3000`.
 - Aparece solo en pantalla, en una posición aleatoria cada 8–15 s, si no hay ninguno ya visible.
 - Dura 10 s en pantalla y parpadea en los últimos 2 s antes de desaparecer.
 - Recogerlo con el efecto activo recarga el temporizador (no se acumula).
+- Mientras el efecto dura, una **barra de progreso** en la esquina superior izquierda (junto al texto `VELOCIDAD x2`) se vacía de izquierda a derecha; tiene relámpagos internos y parpadea al quedar menos de 1,5 s.
 
 ## Características
 
 - 3 vidas con invencibilidad temporal al reaparecer (parpadeo)
 - Asteroides se parten en fragmentos más pequeños al ser destruidos
 - Partículas de explosión al destruir asteroides
-- Power-up "Velocidad" (rayo ámbar) con indicador de tiempo restante en el HUD
+- Power-up "Velocidad" (rayo ámbar) con barra de progreso y relámpagos en el HUD
