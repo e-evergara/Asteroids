@@ -6,7 +6,16 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas: resume o elimina lo qu
 
 - `AGENTS.md` está en **inglés** (2026-10-16); comentarios, README y comunicación en español.
 - Sigue siendo el clon vanilla de Asteroids sin toolchain: no añadir `package.json`, bundler, tests ni lint.
-- Último feature implementado (2026-10-16): power-up **"Velocidad"** en `game.js`.
+- Último feature implementado (2026-10-16): asteroide especial **"Estrella fugaz"** en `game.js`.
+
+## Estrella fugaz (decisiones)
+
+- Clase `ShootingStar` propia; array global `shootingStars` + `shootingStarTimer` con `rand(10, 20)` s, solo una en pantalla a la vez (patrón de los power-ups). Se limpia en `nextLevel()`.
+- Nace en un **borde aleatorio** y cruza en línea recta hacia el centro con jitter ±0.3 rad; **sin wrap toroidal**: muere al salir de pantalla (margen `STAR_OFFSCREEN = 170` px para que la cola termine de salir).
+- Velocidad `rand(280, 380)` px/s (3–4× un asteroide). Vida `rand(3.5, 5)` s con **fade** de opacidad (`alpha = ttl/life`).
+- Estela: historial `trail` de hasta `STAR_TRAIL_MAX = 24` posiciones (una por frame); polilínea con grosor (0.5→4 px) y opacidad decrecientes hacia la cola. Corta el trazo si el salto entre puntos > 100 px (protección de borde).
+- **Destructible con bala: +300 puntos** (`STAR_POINTS`) y explosión de partículas. **No colisiona con la nave** (bonus puro). Blanco monocromo: el ámbar sigue siendo exclusivo del power-up.
+- En estado `'dead'` la estrella sigue moviéndose (como los asteroides); en `'gameover'` no.
 
 ## Power-up "Velocidad" (decisiones)
 
