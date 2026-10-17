@@ -38,8 +38,19 @@ Luego visita `http://localhost:3000`.
 | Mediano   | 50     |
 | Pequeño   | 100    |
 
+## Power-ups
+
+| Power-up   | Efecto                                              | Duración |
+| ---------- | --------------------------------------------------- | -------- |
+| Velocidad  | La nave acelera el doble (impulso x2: 260 → 520 px/s²) | 5 s      |
+
+- Aparece solo en pantalla, en una posición aleatoria cada 8–15 s, si no hay ninguno ya visible.
+- Dura 10 s en pantalla y parpadea en los últimos 2 s antes de desaparecer.
+- Recogerlo con el efecto activo recarga el temporizador (no se acumula).
+
 ## Características
 
 - 3 vidas con invencibilidad temporal al reaparecer (parpadeo)
 - Asteroides se parten en fragmentos más pequeños al ser destruidos
 - Partículas de explosión al destruir asteroides
+- Power-up "Velocidad" (rayo ámbar) con indicador de tiempo restante en el HUD
