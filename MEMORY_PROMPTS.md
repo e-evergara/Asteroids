@@ -30,3 +30,22 @@ Memoria de los prompt hechos en el proyecto entre sesiones.
  ### [2026-10-16 21:58]
 
 **Prompt:** Implementalo
+
+### [2026-10-17 19:58]
+
+- implementemos un **triple shot**: Por 5 segundos, el personaje dispara 3 veces en línea recta.
+- implementemos un **sistema de skins**: Poder cambiar la apariencia de la nave.
+- implementemos un **escudo**: Un escudo que protege a la nave de los proyectiles enemigos.
+
+### [2026-10-17 19:59]
+
+**Prompt:** Implementa
+
+
+### [2026-10-17 20:59]
+
+**Prompt:** Necesito que unamoss los tres worktrees que tenemos: el de skins, el de triple-shot y también el del shield. Una vez terminado, no borres los worktrees; yo voy a hacer eso manualmente
+
+### [2026-10-17 20:59]
+
+**Prompt:** Implementa
