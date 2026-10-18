@@ -6,7 +6,33 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas: resume o elimina lo qu
 
 - `AGENTS.md` está en **inglés** (2026-10-16); comentarios, README y comunicación en español.
 - Sigue siendo el clon vanilla de Asteroids sin toolchain: no añadir `package.json`, bundler, tests ni lint.
-- Último feature implementado (2026-10-16): asteroide especial **"Estrella fugaz"** en `game.js`.
+- Último trabajo (2026-10-17): **unión de los tres worktrees** (`01-triple-shot`, `02-system-of-skins`, `03-shield`) en `feat/03-union-worktrees`.
+- Features previos: skins (2026-10-17), Estrella fugaz y power-up Velocidad (2026-10-16).
+
+## Unión de worktrees (2026-10-17)
+
+- 3 merges `--no-ff` sobre `d7a3073`; conflictos solo en `game.js` (bloques de `update()` e `initGame()`) resueltos conservando los tres features a la vez.
+- Correcciones de integración: `this.shieldCharges = 0` en `Ship.reset()` (antes `NaN` en `checkExtraLife()`) y `asteroids.filter(a => !a.dead)` tras el bloqueo del escudo (si no, asteroide "fantasma" y nivel bloqueado).
+- README sincronizado: tecla `T`, sección "Triple shot", fila "Escudo" en Power-ups, vidas extra en Características.
+- Al terminar: **cambios staged y sin commitear** (`git reset --soft d7a3073`) a la espera de revisión. Worktrees **sin borrar** (los borra el usuario).
+
+## Triple shot (decisiones)
+
+- Globals `tripleShotActive`/`tripleShotTimer` + `TRIPLE_SHOT_DURATION = 5`; se activa con `T` (reinicia el temporizador si ya estaba activo), se limpia en `initGame()`.
+- Mientras activo, `Espacio` lanza 3 `tryShoot()` consecutivos (misma dirección, comparten cooldown).
+
+## Escudo (decisiones)
+
+- Pickup `ShieldPickup` (TTL 10 s, parpadeo 2 s) cada `rand(12, 18)` s solo si no hay otro en pantalla ni escudo activo; efecto 5 s en `ship.shieldTime`.
+- Bloqueo: destruye el asteroide con partículas, **no consume** el escudo; 25 % de probabilidad de soltar otro pickup si no hay ninguno.
+- Vidas extra cada 10 000 pts (`nextExtraLife`, `checkExtraLife()`, máx. 5 vidas).
+
+## Sistema de skins (decisiones)
+
+- Array `SKINS` (5 entradas `{ name, color, flame }`) + `skinIndex` global; **solo cosmético** (nave + iconos de vidas), el resto sigue monocromo.
+- Ciclo en caliente con `K` (`pressed('KeyK')`, rama `'playing'` de `update()`), no abre estados ni pantallas nuevas.
+- Persistencia en `localStorage` clave `asteroids.skin`, lectura/escritura en `try/catch` (degrada a skin 0 en `file://` privado). `initGame()` **no** resetea `skinIndex`.
+- Documentado en `README.md` (tabla de controles + sección "Skins de la nave").
 
 ## Estrella fugaz (decisiones)
 
