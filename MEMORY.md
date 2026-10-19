@@ -6,8 +6,17 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas: resume o elimina lo qu
 
 - `AGENTS.md` está en **inglés** (2026-10-16); comentarios, README y comunicación en español.
 - Sigue siendo el clon vanilla de Asteroids sin toolchain: no añadir `package.json`, bundler, tests ni lint.
-- Último trabajo (2026-10-17): **unión de los tres worktrees** (`01-triple-shot`, `02-system-of-skins`, `03-shield`) en `feat/03-union-worktrees`.
+- Último trabajo (2026-10-19): comandos `/worktree` (crear) y `/worktree-remove` (borrar) en `.opencode/commands/` (ver sección propia).
+- Unión de worktrees (2026-10-17): `01-triple-shot`, `02-system-of-skins`, `03-shield` en `feat/03-union-worktrees`.
 - Features previos: skins (2026-10-17), Estrella fugaz y power-up Velocidad (2026-10-16).
+
+## Comandos de worktree (decisiones)
+
+- Solo comandos, sin agente propio: `agent: build`, `subagent: false`, modelo `opencode/gpt-6-luna#low`.
+- Las restricciones ("sin `cd`, sin otros comandos, sin editar archivos") son **solo de prompt**: no hay bloqueo por permisos porque los comandos no admiten `tools` en V2.
+- `/worktree`: el argumento se trata como descripción y se resume a slug kebab-case (≤40 caracteres, solo `a-z0-9-`). Argumento vacío no ejecuta nada; error de git se reporta sin reintentos.
+- `/worktree-remove`: nombre **literal** (permite espacios, rechaza `/`, `..` y metacaracteres). Orden obligatorio: inferir rama con `git -C .worktrees/<n> branch --show-current` → verificar con `show-ref` → `git worktree remove` → `git branch -d`. Sin `--force` ni `-D`; si el worktree falla, la rama no se toca.
+- Ambos ejecutan desde el directorio actual (`.worktrees/` ya existe y está ignorado).
 
 ## Unión de worktrees (2026-10-17)
 
